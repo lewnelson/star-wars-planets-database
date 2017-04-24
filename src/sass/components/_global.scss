@@ -1,0 +1,16 @@
+html,
+body {
+    color: $main-font-color;
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    height: 100%;
+    box-sizing: border-box;
+}
+
+body {
+    position: relative;
+    min-height: 100%;
+}

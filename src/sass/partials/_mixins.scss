@@ -1,0 +1,11 @@
+@mixin full-width-padding-gutter() {
+    width: 100%;
+    padding: $gutter-shorthand;
+    box-sizing: border-box;
+}
+
+@mixin border-radius($size) {
+    -webkit-border-radius: $size;
+    -moz-border-radius: $size;
+    border-radius: $size;
+}

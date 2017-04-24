@@ -7,7 +7,7 @@ const Portfinder = require("portfinder");
 
 // Setup express application with public static files location, views directory
 // and define template engine to use for rendering views.
-App.use(Express.static("../public"));
+App.use(Express.static(__dirname + "/../public"));
 App.set("views", __dirname + "/views");
 App.set("view engine", "pug");
 

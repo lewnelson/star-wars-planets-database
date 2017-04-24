@@ -1,0 +1,22 @@
+$text-alignments: (
+    "center",
+    "left",
+    "right",
+    "justify"
+);
+
+@each $alignment in $text-alignments {
+    .text-align-#{$alignment} {
+        text-align: #{$alignment};
+    }
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.hidden {
+    display: none !important;
+}

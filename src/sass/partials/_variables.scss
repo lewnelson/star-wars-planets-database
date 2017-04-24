@@ -1,0 +1,18 @@
+// Colours
+$header-background: color("grey", "darken-4");
+$header-font-color: map-get($shades, "white");
+$footer-background: $header-background;
+$footer-font-color: $header-font-color;
+
+// Fonts
+$main-font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+$title-font-family: $main-font-family;
+$main-font-color: color("grey", "darken-4");
+
+// Spacings
+$horizontal-gutter: 26px;
+$vertical-gutter: 14px;
+$gutter-shorthand: $vertical-gutter $horizontal-gutter;
+
+// Widths
+$max-content-width: 1400px;
