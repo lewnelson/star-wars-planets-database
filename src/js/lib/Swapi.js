@@ -1,7 +1,11 @@
 "use strict";
 
 const apiUrl = "http://swapi.co/api";
-let cache = {};
+
+// Maximum items to store in the cache, once limit is reached the cache should
+// clear out oldest item to make room
+const maxStorage = 100;
+let cache = [];
 
 /**
  *  Load from cache object
@@ -10,7 +14,35 @@ let cache = {};
  *  @return {object|null} Returns null on cache miss
  */
 function getFromCache(url) {
-  return cache[url] || null;
+  let hit = null,
+      cachedResponses = cache.slice(0);
+
+  while(cachedResponses.length > 0 && hit === null) {
+    let next = cachedResponses.shift();
+    if(next.url === url) {
+      hit = JSON.parse(JSON.stringify(next.response));
+    }
+  }
+
+  return hit;
+}
+
+/**
+ *  Add a response to the cache
+ *
+ *  @param {string} uri
+ *  @param {object} response
+ *  @return {void}
+ */
+function addToCache(uri, response) {
+  if(cache.length === maxStorage) {
+    cache.shift();
+  }
+
+  cache.push({
+    url: uri,
+    response: response
+  });
 }
 
 /**
@@ -24,13 +56,13 @@ exports.get = (uri) => {
     uri = apiUrl + uri;
   }
 
-  return new ES6Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     let cachedResponse = getFromCache(uri);
     if(cachedResponse !== null) {
-      resolve(cachedResponse);
+      resolve(cachedResponse.data);
     } else {
       axios.get(uri).then((response) => {
-        cache[uri] = response.data;
+        addToCache(uri, response);
         resolve(response.data);
       }).catch((err) => reject(err));
     }

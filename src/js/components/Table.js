@@ -5,7 +5,10 @@ export class Table extends React.Component {
     return (
       <table>
         <TableHead
-          fields={this.props.fields} />
+          fields={this.props.fields}
+          sortData={this.props.sortData}
+          getSortDirection={this.props.getSortDirection}
+          sortKey={this.props.sortKey} />
 
         <TableBody
           data={this.props.data}
@@ -22,7 +25,13 @@ class TableHead extends React.Component {
 
     while(fields.length > 0) {
       let field = fields.shift();
-      thElems.push(<th key={field.key}>{field.label}</th>);
+      thElems.push(
+        <TableHeadCell
+          key={field.key}
+          sortData={this.props.sortData}
+          getSortDirection={this.props.getSortDirection}
+          field={field} />
+      );
     }
 
     return thElems;
@@ -39,6 +48,40 @@ class TableHead extends React.Component {
   }
 }
 
+class TableHeadCell extends React.Component {
+  constructor(props) {
+    super(props);
+    this.sortData = this.sortData.bind(this);
+  }
+
+  sortData() {
+    if(this.props.field.sortable !== true) {
+      return;
+    }
+
+    this.props.sortData(this.props.field.key);
+  }
+
+  render() {
+    let classes = [],
+        sortDirection = this.props.getSortDirection(this.props.field.key);
+        
+    if(sortDirection > 0) {
+      classes.push("sort-ascending");
+    } else if(sortDirection < 0) {
+      classes.push("sort-descending");
+    }
+
+    return (
+      <th
+        className={classes.join("")}
+        onClick={this.sortData}>
+        {this.props.field.label}
+      </th>
+    );
+  }
+}
+
 class TableBody extends React.Component {
   getDataRows() {
     let rows = [],
@@ -46,7 +89,7 @@ class TableBody extends React.Component {
 
     data = data.slice(0);
     for(let i = 0; i < data.length; i++) {
-      rows.push(<TableRow data={data[i]} fields={this.props.fields} key={i} />);
+      rows.push(<TableRow data={data[i]} fields={this.props.fields} key={data[i].url} />);
     }
 
     return rows;
@@ -97,6 +140,12 @@ class TableDataCell extends React.Component {
     this.resolveValue();
   }
 
+  componentWillUnmount() {
+    if(this.promise !== undefined) {
+      this.promise.cancel();
+    }
+  }
+
   resolveValue() {
     let value = this.props.value;
     switch(true) {
@@ -106,7 +155,8 @@ class TableDataCell extends React.Component {
 
       case (typeof this.props.field.value === "function"):
         let resolvedValue = this.props.field.value(value);
-        if((resolvedValue instanceof ES6Promise)) {
+        if((resolvedValue instanceof Promise)) {
+          this.promise = resolvedValue;
           resolvedValue.then((v) => this.setState({value: v})).catch((err) => this.setState({value: "ERR"}));
         } else if(typeof resolvedValue !== undefined) {
           this.setState({value: resolvedValue});
