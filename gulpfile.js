@@ -7,6 +7,7 @@ const uglify = require("gulp-uglify");
 const sourcemaps = require("gulp-sourcemaps");
 const sass = require("gulp-sass");
 const browserify = require("browserify");
+const babelify = require("babelify");
 
 /**
  *  Compile javascript from source
@@ -21,10 +22,9 @@ function compileJs(dev, watch) {
     {
       debug: true
     }
-  )
-  .transform("babelify", {
+  ).transform(babelify, {
     presets: ["es2015", "react"]
-  });
+  }).external("es6-promise").external("axios");
 
   let stream = bundler.bundle()
     .on("error", (err) => console.error(err))
@@ -98,5 +98,5 @@ gulp.task("sassProd", () => {
 });
 
 gulp.task("default", ["jsDev", "sassDev"]);
-gulp.task("watch", ["jsWatch", "sassWatch"]);
+gulp.task("watch", ["default", "jsWatch", "sassWatch"]);
 gulp.task("prod", ["jsProd", "sassProd"]);

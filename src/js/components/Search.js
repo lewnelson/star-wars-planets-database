@@ -1,3 +1,5 @@
+"use strict";
+
 export class Search extends React.Component {
   constructor(props) {
     super(props);
