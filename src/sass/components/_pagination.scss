@@ -1,0 +1,48 @@
+.pagination-component {
+    display: block;
+    width: 100%;
+    padding: 16px 50px 32px 50px;
+    box-sizing: border-box;
+    text-align: right;
+
+    span {
+        margin: 0 8px;
+        cursor: pointer;
+        line-height: 28px;
+        height: 28px;
+        text-align: center;
+        display: inline-block;
+        text-align: center;
+    }
+
+    span.page-number {
+        width: 28px;
+    }
+
+    span.disabled {
+        cursor: default;
+        opacity: 0.3;
+    }
+
+    span.active {
+        cursor: default;
+        background-color: $pagination-active-background;
+        border-radius: 14px;
+    }
+
+    span:first-of-type {
+        margin-left: 0;
+    }
+
+    span:last-of-type {
+        margin-right: 0;
+    }
+
+    span.first {
+        margin-right: 16px;
+    }
+
+    span.last {
+        margin-left: 16px;
+    }
+}

@@ -2,6 +2,7 @@
 
 import { Search } from "./Search.js";
 import { Table } from "./Table.js";
+import { Pagination } from "./Pagination.js";
 const Swapi = require("../lib/Swapi.js");
 
 /**
@@ -15,11 +16,13 @@ export class Planets extends React.Component {
       searchValue: "",
       loading: true,
       result: {},
-      error: false
+      error: false,
+      page: 1
     };
 
     this.searchInputHandler = this.searchInputHandler.bind(this);
     this.clearSearchValue = this.clearSearchValue.bind(this);
+    this.goToPage = this.goToPage.bind(this);
     this.requestInProgress = {};
   }
 
@@ -27,17 +30,31 @@ export class Planets extends React.Component {
    *  Load the result from the api with an optional search value
    *
    *  @param {string} searchValue
+   *  @param {int} page
    *  @return {void}
    */
-  loadResult(searchValue) {
-    let uri = "/planets/";
+  loadResult(searchValue, page) {
+    let uri = "/planets/",
+        queryParams = {};
+
     if(typeof this.requestInProgress.cancel === "function") {
       this.requestInProgress.cancel();
     }
 
-    if(searchValue !== undefined) {
-      uri += "?search=" + searchValue;
+    if(searchValue !== undefined && searchValue !== "") {
+      queryParams.search = searchValue;
+    } else if(searchValue === undefined && this.state.searchValue !== "") {
+      queryParams.search = this.state.searchValue;
     }
+
+    if(page !== undefined) {
+      queryParams.page = page;
+    } else if(page === undefined && this.state.page !== undefined) {
+      queryParams.page = this.state.page;
+    }
+
+    let compiledQueryParams = Object.keys(queryParams).map((k) => encodeURIComponent(k) + "=" + encodeURIComponent(queryParams[k]));
+    uri = compiledQueryParams.length > 0 ? uri + "?" + compiledQueryParams.join("&") : uri;
 
     this.setState({loading: true});
     this.requestInProgress = Swapi.get(uri);
@@ -58,6 +75,20 @@ export class Planets extends React.Component {
   }
 
   /**
+   *  Load results for a specific page number
+   *
+   *  @param {int} pageNumber
+   *  @return {void}
+   */
+  goToPage(pageNumber) {
+    this.setState({
+      page: pageNumber
+    });
+
+    this.loadResult(undefined, pageNumber);
+  }
+
+  /**
    *  Handle the search input from an input element onChange event. Will update
    *  search in state and load results with search term.
    *
@@ -66,10 +97,11 @@ export class Planets extends React.Component {
    */
   searchInputHandler(event) {
     this.setState({
-      searchValue: event.target.value
+      searchValue: event.target.value,
+      page: 1
     });
 
-    this.loadResult(event.target.value);
+    this.loadResult(event.target.value, 1);
   }
 
   /**
@@ -80,10 +112,11 @@ export class Planets extends React.Component {
    */
   clearSearchValue() {
     this.setState({
-      searchValue: ""
+      searchValue: "",
+      page: 1
     });
 
-    this.loadResult();
+    this.loadResult("", 1);
   }
 
   /**
@@ -142,6 +175,16 @@ export class Planets extends React.Component {
   }
 
   /**
+   *  Gets the amount of pages for the result
+   *
+   *  @return {int}
+   */
+  getTotalPages() {
+    let count = this.state.result.count || 0;
+    return count > 0 ? Math.ceil(count / 10) : 1;
+  }
+
+  /**
    *  Will check if error state exists and either load in data table or display
    *  error.
    */
@@ -173,6 +216,11 @@ export class Planets extends React.Component {
           clearSearchValue={this.clearSearchValue} />
 
         {dataComponent}
+
+        <Pagination
+          goToPage={this.goToPage}
+          totalPages={this.getTotalPages()}
+          currentPage={this.state.page} />
       </div>
     );
   }
