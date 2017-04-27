@@ -13,8 +13,8 @@ App.set("view engine", "pug");
 // Main route for home page
 App.get("/", (req, res, next) => {
   res.render("home", {
-    pageTitle: "Star Wars Planets",
-    pageDescription: "Avoid the scum and villainy, plan ahead."
+    pageTitle: "Star Wars Planets Database",
+    pageDescription: "Information on planets from the Star Wars universe."
   });
 
   next();
