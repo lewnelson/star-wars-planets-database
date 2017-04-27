@@ -93,16 +93,18 @@ export class Table extends React.Component {
   render() {
     let data = this.sortData();
     return (
-      <div className="table">
-        <TableHead
-          fields={this.props.fields}
-          setSorting={this.setSorting}
-          sorting={this.state.sorting} />
+      <div className="table-wrapper">
+        <div className="table">
+          <TableHead
+            fields={this.props.fields}
+            setSorting={this.setSorting}
+            sorting={this.state.sorting} />
 
-        <TableBody
-          data={data}
-          fields={this.props.fields}
-          loading={this.props.loading} />
+          <TableBody
+            data={data}
+            fields={this.props.fields}
+            loading={this.props.loading} />
+        </div>
       </div>
     );
   }

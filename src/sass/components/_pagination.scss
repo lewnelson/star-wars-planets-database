@@ -4,6 +4,7 @@
     padding: 16px 50px 32px 50px;
     box-sizing: border-box;
     text-align: right;
+    @include user-select-none();
 
     span {
         margin: 0 8px;
@@ -44,5 +45,13 @@
 
     span.last {
         margin-left: 16px;
+    }
+}
+
+@media screen and (max-width: 460px) {
+    .pagination-component {
+        text-align: center;
+        padding-left: 8px;
+        padding-right: 8px;
     }
 }

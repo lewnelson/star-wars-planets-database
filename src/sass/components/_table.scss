@@ -1,5 +1,10 @@
+.table-wrapper {
+    overflow-x: auto;
+}
+
 .table {
     width: 100%;
+    min-width: 1000px;
     box-sizing: border-box;
     padding: 20px;
     border-spacing: 0;
@@ -18,7 +23,7 @@
         .cell {
             font-weight: 300;
             text-transform: uppercase;
-            user-select: none;
+            @include user-select-none();
             cursor: default;
         }
 

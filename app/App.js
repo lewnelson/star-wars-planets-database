@@ -3,7 +3,6 @@
 const CmdLine = require("./CmdLine.js");
 const Express = require("express");
 const App = Express();
-const Portfinder = require("portfinder");
 
 // Setup express application with public static files location, views directory
 // and define template engine to use for rendering views.

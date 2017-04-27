@@ -9,3 +9,10 @@
     -moz-border-radius: $size;
     border-radius: $size;
 }
+
+@mixin user-select-none() {
+    user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+}
