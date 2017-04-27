@@ -160,6 +160,7 @@ export class Planets extends React.Component {
       dataComponent = <div className="data-error">Error loading data</div>
     } else {
       dataComponent = <Table
+        loading={this.state.loading}
         data={data}
         fields={this.getFields()} />;
     }

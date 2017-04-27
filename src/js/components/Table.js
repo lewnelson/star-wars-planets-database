@@ -1,5 +1,7 @@
 "use strict";
 
+import { Loader } from "./Loader.js";
+
 /**
  *  Table component, renders all sub table components. Accepts the following props
  *   - fields : {array} Array of field objects, each field object can have the
@@ -15,6 +17,7 @@
  *                                                      by this field.
  *
  *   - data : {array} Array of data objects that contain the keys defined in fields
+ *   - loading : {boolean} Is data currently loading?
  */
 export class Table extends React.Component {
   constructor(props) {
@@ -98,7 +101,8 @@ export class Table extends React.Component {
 
         <TableBody
           data={data}
-          fields={this.props.fields} />
+          fields={this.props.fields}
+          loading={this.props.loading} />
       </div>
     );
   }
@@ -197,6 +201,10 @@ class TableHeadCell extends React.Component {
       classes.push("sort-descending");
     }
 
+    if(this.props.field.sortable === true) {
+      classes.push("sortable");
+    }
+
     return (
       <div
         className={classes.join(" ")}
@@ -211,10 +219,19 @@ class TableHeadCell extends React.Component {
  *  Table body component will render tbody element with rows of TableRow
  *  components.
  *
- *  It accepts a `data` prop and a `fields` prop. See Table component description
- *  for more info.
+ *  It accepts a `data` prop, a `fields` prop and a `loading` prop. See Table
+ *  component description for more info.
  */
 class TableBody extends React.Component {
+  /**
+   *  Fetch the HTML to display an empty result set
+   *
+   *  @return {HTML component}
+   */
+  getEmptyResult() {
+    return <div className="table-empty-data">No results to display</div>
+  }
+
   /**
    *  Parses each data object into a TableRow component
    *
@@ -229,12 +246,13 @@ class TableBody extends React.Component {
       rows.push(<TableRow data={data[i]} fields={this.props.fields} key={data[i].url} />);
     }
 
-    return rows;
+    return rows.length > 0 ? rows : this.getEmptyResult();
   }
 
   render() {
     return (
       <div className="table-body">
+        <Loader loading={this.props.loading} />
         {this.getDataRows()}
       </div>
     );
@@ -379,7 +397,10 @@ class TableDataCell extends React.Component {
     }
 
     return (
-      <div className={classes.join(" ")}>{this.getValues()}</div>
+      <div className={classes.join(" ")}>
+        <Loader loading={this.state.loading} />
+        {this.getValues()}
+      </div>
     );
   }
 }
