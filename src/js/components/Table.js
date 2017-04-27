@@ -90,7 +90,7 @@ export class Table extends React.Component {
   render() {
     let data = this.sortData();
     return (
-      <table>
+      <div className="table">
         <TableHead
           fields={this.props.fields}
           setSorting={this.setSorting}
@@ -99,7 +99,7 @@ export class Table extends React.Component {
         <TableBody
           data={data}
           fields={this.props.fields} />
-      </table>
+      </div>
     );
   }
 }
@@ -146,11 +146,11 @@ class TableHead extends React.Component {
 
   render() {
     return (
-      <thead>
-        <tr>
+      <div className="table-head">
+        <div className="table-row">
           {this.getThElements()}
-        </tr>
-      </thead>
+        </div>
+      </div>
     );
   }
 }
@@ -188,7 +188,7 @@ class TableHeadCell extends React.Component {
   }
 
   render() {
-    let classes = [],
+    let classes = ["cell", this.props.field.key],
         sortDirection = this.props.sorting.direction || 0;
         
     if(sortDirection > 0 && this.props.sorting.key === this.props.field.key) {
@@ -198,11 +198,11 @@ class TableHeadCell extends React.Component {
     }
 
     return (
-      <th
-        className={classes.join("")}
+      <div
+        className={classes.join(" ")}
         onClick={this.setSorting}>
         {this.props.field.label}
-      </th>
+      </div>
     );
   }
 }
@@ -234,9 +234,9 @@ class TableBody extends React.Component {
 
   render() {
     return (
-      <tbody>
+      <div className="table-body">
         {this.getDataRows()}
-      </tbody>
+      </div>
     );
   }
 }
@@ -274,9 +274,9 @@ class TableRow extends React.Component {
 
   render() {
     return (
-      <tr>
+      <div className="table-row">
         {this.getDataCells()}
-      </tr>
+      </div>
     );
   };
 }
@@ -373,13 +373,13 @@ class TableDataCell extends React.Component {
   }
 
   render() {
-    let classes = [];
+    let classes = ["cell", this.props.field.key];
     if(this.state.loading === true) {
       classes.push("loading");
     }
 
     return (
-      <td className={classes.join("")}>{this.getValues()}</td>
+      <div className={classes.join(" ")}>{this.getValues()}</div>
     );
   }
 }

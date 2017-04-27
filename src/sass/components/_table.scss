@@ -1,0 +1,109 @@
+.table {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+    border-spacing: 0;
+
+    .table-head {
+        padding: 16px 0;
+        color: $table-head-color;
+        background-color: $table-head-background;
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+
+        .table-row {
+            padding: 0 16px;
+        }
+
+        .cell {
+            font-weight: 300;
+            text-transform: uppercase;
+        }
+    }
+
+    .table-head,
+    .table-body {
+        box-sizing: border-box;
+        width: 100%;
+    }
+
+    .table-body {
+        color: $table-body-color;
+        background-color: $table-body-background;
+        position: relative;
+        padding-bottom: 20px;
+        min-height: 80px;
+        font-size: 0.9em;
+
+        .table-row {
+            padding: 6px 16px;
+        }
+
+        .table-row:nth-child(even) {
+            background-color: $table-body-footer-background;
+        }
+    }
+
+    .table-body:after {
+        content: '';
+        display: block;
+        width: 100%;
+        background-color: $table-body-footer-background;
+        height: 20px;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+    }
+
+    .table-body,
+    .table-body:after {
+        border-bottom-left-radius: 16px;
+        border-bottom-right-radius: 16px;
+    }
+
+    .table-row {
+        display: flex;
+        align-items: stretch;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        .cell {
+            display: inline-block;
+            flex: 1;
+            box-sizing: border-box;
+            padding: 4px;
+
+            span {
+                display: block;
+                margin-top: 12px;
+            }
+
+            span:first-of-type {
+                margin-top: 0;
+            }
+        }
+
+        .cell.terrain,
+        .cell.films {
+            max-width: 300px;
+        }
+
+        .cell.name,
+        .cell.diameter {
+            min-width: 130px;
+            max-width: 200px;
+        }
+
+        .cell.population {
+            min-width: 130px;
+            max-width: 210px;
+        }
+
+        .cell.orbital_period,
+        .cell.rotation_period {
+            min-width: 130px;
+            max-width: 270px;
+        }
+    }
+}

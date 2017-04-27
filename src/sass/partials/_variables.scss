@@ -1,13 +1,18 @@
+// Fonts
+$main-font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+$title-font-family: $main-font-family;
+$main-font-color: color("grey", "darken-4");
+
 // Colours
 $header-background: color("grey", "darken-4");
 $header-font-color: map-get($shades, "white");
 $footer-background: $header-background;
 $footer-font-color: $header-font-color;
-
-// Fonts
-$main-font-family: 'Open Sans', Helvetica, Arial, sans-serif;
-$title-font-family: $main-font-family;
-$main-font-color: color("grey", "darken-4");
+$table-head-color: #fff;
+$table-head-background: #00BFCC;
+$table-body-color: $main-font-color;
+$table-body-background: #F3F7FA;
+$table-body-footer-background: #E5E9F1;
 
 // Spacings
 $horizontal-gutter: 26px;

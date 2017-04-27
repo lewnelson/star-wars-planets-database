@@ -31,6 +31,7 @@ export class Search extends React.Component {
         <i className="material-icons">search</i>
         <input
           type="text"
+          placeholder="Search"
           value={this.props.searchValue}
           onInput={this.props.inputHandler}
           onChange={this.props.inputHandler}
