@@ -6,7 +6,7 @@ Promise.config({
   cancellation: true
 });
 
-let planetElements = document.getElementsByClassName("planets");
-for(let i = 0; i < planetElements.length; i++) {
-  ReactDOM.render(<Planets />, planetElements[i]);
+let planetContainerEl = document.getElementById("planets");
+if(planetContainerEl !== null) {
+  ReactDOM.render(<Planets />, planetContainerEl);
 }

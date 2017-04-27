@@ -4,6 +4,10 @@ import { Search } from "./Search.js";
 import { Table } from "./Table.js";
 const Swapi = require("../lib/Swapi.js");
 
+/**
+ *  Planets component to display and search for Star Wars planets. Renders Search
+ *  component, Table component and Pagination component.
+ */
 export class Planets extends React.Component {
   constructor(props) {
     super(props);
@@ -11,111 +15,82 @@ export class Planets extends React.Component {
       searchValue: "",
       loading: true,
       result: {},
-      sortKey: "",
-      direction: 0
+      error: false
     };
 
-    this.inputHandler = this.inputHandler.bind(this);
-    this.getSearchValue = this.getSearchValue.bind(this);
+    this.searchInputHandler = this.searchInputHandler.bind(this);
     this.clearSearchValue = this.clearSearchValue.bind(this);
-    this.getSortDirection = this.getSortDirection.bind(this);
-    this.toggleSortDirection = this.toggleSortDirection.bind(this);
-    this.sortData = this.sortData.bind(this);
     this.requestInProgress = {};
   }
 
-  getSortDirection(key) {
-    let direction = 0;
-    if(key === this.state.sortKey) {
-      direction = this.state.direction;
-    }
-
-    return direction;
-  }
-
-  toggleSortDirection(key) {
-    let direction;
-    if(key === this.state.sortKey) {
-      direction = this.state.direction === 1 ? -1 : 1;
-      this.state.direction = direction;
-    } else {
-      this.state.direction = 1;
-    }
-  }
-
-  sortData(key) {
-    this.toggleSortDirection(key);
-    let data = this.state.result.results || [];
-    let direction = this.getSortDirection(key);
-
-    data.sort((a, b) => {
-      let valA = a[key],
-          valB = b[key];
-
-      if(valA.match(/^[\d]+$/) !== null || valB.match(/^[\d]+$/) !== null) {
-        valA = parseInt(valA) || 0;
-        valB = parseInt(valB) || 0;
-      }
-
-      if(direction >= 0) {
-        return valA > valB ? 1 : valA < valB ? -1 : 0;
-      } else {
-        return valA < valB ? 1 : valA > valB ? -1 : 0;
-      }
-    });
-
-    let result = this.state.result;
-    result.results = data;
-    this.setState({result: result, sortKey: key});
-  }
-
   /**
-   *  
+   *  Load the result from the api with an optional search value
+   *
+   *  @param {string} searchValue
+   *  @return {void}
    */
-  loadResult(uri, searchValue) {
+  loadResult(searchValue) {
+    let uri = "/planets/";
     if(typeof this.requestInProgress.cancel === "function") {
       this.requestInProgress.cancel();
     }
 
-    if(uri === undefined) {
-      uri = "/planets/";
-      if(searchValue !== undefined) {
-        uri += "?search=" + searchValue;
-      }
+    if(searchValue !== undefined) {
+      uri += "?search=" + searchValue;
     }
 
     this.setState({loading: true});
     this.requestInProgress = Swapi.get(uri);
     this.requestInProgress.then((result) => {
-      this.setState({result: result, loading: false, sortKey: "", direction: 0});
+      this.setState({result: result, loading: false, error: false});
     }).catch((err) => {
-      console.log(err);
-      this.setState({loading: false, result: {}, sortKey: "", direction: 0});
+      this.setState({result: {}, loading: false, error: true});
     });
   }
 
+  /**
+   *  Once the component has mounted load in the data
+   *
+   *  @return {void}
+   */
   componentDidMount() {
     this.loadResult();
   }
 
-  inputHandler(event) {
+  /**
+   *  Handle the search input from an input element onChange event. Will update
+   *  search in state and load results with search term.
+   *
+   *  @param {Event} event
+   *  @return {void}
+   */
+  searchInputHandler(event) {
     this.setState({
       searchValue: event.target.value
     });
 
-    this.loadResult(undefined, event.target.value);
+    this.loadResult(event.target.value);
   }
 
-  getSearchValue() {
-    return this.state.searchValue;
-  }
-
+  /**
+   *  Clear the search value, will update search value state and load result with
+   *  no search term
+   *
+   *  @return {void}
+   */
   clearSearchValue() {
     this.setState({
       searchValue: ""
     });
+
+    this.loadResult();
   }
 
+  /**
+   *  Get list of field objects to display in the data table
+   *
+   *  @return {array} Array of field objects
+   */
   getFields() {
     return [
       {
@@ -166,6 +141,10 @@ export class Planets extends React.Component {
     ];
   }
 
+  /**
+   *  Will check if error state exists and either load in data table or display
+   *  error.
+   */
   render() {
     let data = this.state.result.results || [],
         componentClasses = [
@@ -176,19 +155,23 @@ export class Planets extends React.Component {
       componentClasses.push("loading");
     }
 
+    let dataComponent;
+    if(this.state.error === true) {
+      dataComponent = <div className="data-error">Error loading data</div>
+    } else {
+      dataComponent = <Table
+        data={data}
+        fields={this.getFields()} />;
+    }
+
     return (
       <div className={componentClasses.join(" ")}>
         <Search
-          inputHandler={this.inputHandler}
+          inputHandler={this.searchInputHandler}
           searchValue={this.state.searchValue}
           clearSearchValue={this.clearSearchValue} />
 
-        <Table
-          data={data}
-          getSortDirection={this.getSortDirection}
-          sortData={this.sortData}
-          sortKey={this.state.sortKey}
-          fields={this.getFields()} />
+        {dataComponent}
       </div>
     );
   }
