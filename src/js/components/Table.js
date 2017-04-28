@@ -125,7 +125,7 @@ export class Table extends React.Component {
  *                      direction can be 1 for ascending, -1 for descending and
  *                      0 for default.
  */
-class TableHead extends React.Component {
+export class TableHead extends React.Component {
   /**
    *  Gets a list of all th elements by looping through each field from the fields
    *  prop.
@@ -174,7 +174,7 @@ class TableHead extends React.Component {
  *
  *   - field : {object} Field object from the list of fields passed to Table
  */
-class TableHeadCell extends React.Component {
+export class TableHeadCell extends React.Component {
   constructor(props) {
     super(props);
     this.setSorting = this.setSorting.bind(this);
@@ -224,7 +224,7 @@ class TableHeadCell extends React.Component {
  *  It accepts a `data` prop, a `fields` prop and a `loading` prop. See Table
  *  component description for more info.
  */
-class TableBody extends React.Component {
+export class TableBody extends React.Component {
   /**
    *  Fetch the HTML to display an empty result set
    *
@@ -267,7 +267,7 @@ class TableBody extends React.Component {
  *
  *  Accepts `fields` prop and `data` prop where data is single data object.
  */
-class TableRow extends React.Component {
+export class TableRow extends React.Component {
   /**
    *  Gets all TableDataCell components for the data object
    *
@@ -308,7 +308,7 @@ class TableRow extends React.Component {
  *   - field : {object} Single field object
  *   - value : {string|array} Optional, will resolve to `N/A` when not defined
  */
-class TableDataCell extends React.Component {
+export class TableDataCell extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

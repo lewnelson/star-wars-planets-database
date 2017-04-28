@@ -2,6 +2,8 @@
 
 const CmdLineArgs = require("command-line-args");
 const CmdLineUsage = require('command-line-usage')
+
+// Command line options for use with command-line-args library
 const optionDefinitions = [
   {
     name: "help",
@@ -20,6 +22,7 @@ const optionDefinitions = [
   }
 ];
 
+// Command line usage sections for use with command-line-usage library
 const sections = [
   {
     header: "Star Wars Planets",
@@ -34,7 +37,7 @@ const sections = [
 const options = CmdLineArgs(optionDefinitions);
 
 /**
- *  Get a command line option by name
+ *  Get a command line option value by name
  *
  *  @param {string} name
  *  @return {mixed}

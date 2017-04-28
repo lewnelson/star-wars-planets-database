@@ -1,13 +1,20 @@
 {
-  "name": "starwars.localdev",
+  "name": "starwars-planets-database",
   "version": "1.0.0",
-  "description": "",
+  "description": "Star Wars planets full stack application to display Star Wars planets data using swapi.co",
+  "homepage": "https://github.com/lewnelson/star-wars-planets-database",
+  "license": "SEE LICENSE IN LICENSE.md",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --require test_bootstrap.js --recursive"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Lewis Nelson",
+  "email": "lewis@lewnelson.com",
+  "url": "https://lewnelson.com/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lewnelson/star-wars-planets-database.git"
+  },
   "dependencies": {
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
@@ -24,5 +31,18 @@
     "pug": "^2.0.0-beta.12",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
+  },
+  "engines": {
+    "node": ">=6.10"
+  },
+  "devDependencies": {
+    "assert": "^1.4.1",
+    "axios": "^0.16.1",
+    "bluebird": "^3.5.0",
+    "mocha": "^3.3.0",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "sinon": "^2.1.0",
+    "supertest": "^3.0.0"
   }
 }

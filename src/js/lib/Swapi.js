@@ -4,7 +4,7 @@ const apiUrl = "http://swapi.co/api";
 
 // Maximum items to store in the cache, once limit is reached the cache should
 // clear out oldest item to make room
-const maxStorage = 100;
+const maxStorage = 3;
 let cache = [];
 
 /**
@@ -35,7 +35,7 @@ function getFromCache(url) {
  *  @return {void}
  */
 function addToCache(uri, response) {
-  if(cache.length === maxStorage) {
+  if(cache.length > maxStorage) {
     cache.shift();
   }
 
@@ -44,6 +44,8 @@ function addToCache(uri, response) {
     response: response
   });
 }
+
+let i = 0;
 
 /**
  *  Send GET request to swapi will attempt to retrieve cached response first
@@ -63,6 +65,7 @@ exports.get = (uri) => {
     } else {
       axios.get(uri).then((response) => {
         addToCache(uri, response);
+        console.log(response, uri);
         resolve(response.data);
       }).catch((err) => reject(err));
     }
