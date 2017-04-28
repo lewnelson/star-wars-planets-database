@@ -6,7 +6,7 @@
   "license": "SEE LICENSE IN LICENSE.md",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- --require test_bootstrap.js --recursive"
+    "test": "node_modules/.bin/cross-env NODE_ENV=test node_modules/.bin/nyc --reporter=lcov --reporter=text node_modules/.bin/_mocha --require test_bootstrap.js --recursive --compilers js:babel-core/register"
   },
   "author": "Lewis Nelson",
   "email": "lewis@lewnelson.com",
@@ -38,13 +38,24 @@
   "devDependencies": {
     "assert": "^1.4.1",
     "axios": "^0.16.1",
+    "babel-core": "^6.24.1",
+    "babel-plugin-istanbul": "^4.1.1",
     "bluebird": "^3.5.0",
+    "chai": "^3.5.0",
+    "cross-env": "^4.0.0",
+    "enzyme": "^2.8.2",
     "istanbul": "^0.4.5",
     "mocha": "^3.3.0",
     "moxios": "^0.4.0",
+    "nyc": "^10.2.0",
     "react": "^15.5.4",
+    "react-addons-test-utils": "^15.5.1",
     "react-dom": "^15.5.4",
-    "sinon": "^2.1.0",
+    "react-test-renderer": "^15.5.4",
     "supertest": "^3.0.0"
+  },
+  "nyc": {
+    "sourceMap": false,
+    "instrument": false
   }
 }

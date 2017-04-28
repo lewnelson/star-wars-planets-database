@@ -1,6 +1,5 @@
 "use strict";
 
-const sinon = require("sinon");
 const axios = require("axios");
 const Promise = require("bluebird");
 const SwapiPath = "../../../../src/js/lib/Swapi.js";
