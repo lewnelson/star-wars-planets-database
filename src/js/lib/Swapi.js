@@ -4,8 +4,8 @@ const apiUrl = "http://swapi.co/api";
 
 // Maximum items to store in the cache, once limit is reached the cache should
 // clear out oldest item to make room
-const maxStorage = 3;
-let cache = [];
+const maxStorage = 100;
+exports.cache = [];
 
 /**
  *  Load from cache object
@@ -15,7 +15,7 @@ let cache = [];
  */
 function getFromCache(url) {
   let hit = null,
-      cachedResponses = cache.slice(0);
+      cachedResponses = exports.cache.slice(0);
 
   while(cachedResponses.length > 0 && hit === null) {
     let next = cachedResponses.shift();
@@ -35,11 +35,11 @@ function getFromCache(url) {
  *  @return {void}
  */
 function addToCache(uri, response) {
-  if(cache.length > maxStorage) {
-    cache.shift();
+  if(exports.cache.length >= maxStorage) {
+    exports.cache.shift();
   }
 
-  cache.push({
+  exports.cache.push({
     url: uri,
     response: response
   });
@@ -65,7 +65,6 @@ exports.get = (uri) => {
     } else {
       axios.get(uri).then((response) => {
         addToCache(uri, response);
-        console.log(response, uri);
         resolve(response.data);
       }).catch((err) => reject(err));
     }

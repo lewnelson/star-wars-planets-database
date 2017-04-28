@@ -6,7 +6,7 @@
   "license": "SEE LICENSE IN LICENSE.md",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --require test_bootstrap.js --recursive"
+    "test": "node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- --require test_bootstrap.js --recursive"
   },
   "author": "Lewis Nelson",
   "email": "lewis@lewnelson.com",
@@ -39,7 +39,9 @@
     "assert": "^1.4.1",
     "axios": "^0.16.1",
     "bluebird": "^3.5.0",
+    "istanbul": "^0.4.5",
     "mocha": "^3.3.0",
+    "moxios": "^0.4.0",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "sinon": "^2.1.0",
