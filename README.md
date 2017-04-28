@@ -1,11 +1,12 @@
 # star-wars-planets-database
-Javascript application using react to interact with the swapi to display lists of planets
+Javascript application using react to interact with the swapi to display lists of planets. This is a basic application that makes use of react to render a table displaying planets data from http://swapi.co/. The data is filterable, searchable and has pagination. The server only renders the basic HTML page and react takes over from there on the front end to retrieve data from the API and display it in the table.
 
 ## Demo
 http://swplanets.lewnelson.com/
 
 ## Dependencies
 1. node >= 6.10
+1. npm >= 3.10
 1. sass >= 3.4
 
 ## Development Quickstart
