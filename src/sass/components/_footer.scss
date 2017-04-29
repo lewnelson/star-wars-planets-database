@@ -11,4 +11,14 @@
     bottom: 0;
     position: absolute;
     left: 0;
+    font-size: 0.8em;
+
+    a {
+        color: $footer-font-color;
+        opacity: 0.8;
+    }
+
+    a:hover {
+        opacity: 1;
+    }
 }

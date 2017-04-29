@@ -21,7 +21,7 @@ node index.js -p [port]  # where port is the port that the http server binds to
 ```
 
 ## Getting Started With Docker
-A docker image is available publicly here https://hub.docker.com/r/lewnelson/star-wars-planets-database/.
+A docker repository is available publicly here https://hub.docker.com/r/lewnelson/star-wars-planets-database/.
 
 ## Getting Started With Node
 1. npm install
@@ -30,3 +30,8 @@ A docker image is available publicly here https://hub.docker.com/r/lewnelson/sta
     - prod - builds without sourcemaps.
     - watch - same as dev, but watches for changes to source files to recompile.
 1. Start server, running `node index.js` will output command line options. Currently allows option of binding http server to specified port.
+
+## Running Tests
+1. All tests are located in `/tests`. They map directly with the file structure and test both server and client code. Tests require that the `test_bootstrap.js` file is loaded. This requires library dependencies which are loaded in via CDN's in the application.
+1. To run all tests `npm test`
+1. To run tests and generate a coverage report `npm run coverage`. The coverage report is stored in `./coverage`, they can be viewed by starting a server using `node coverage.js` which will serve all static files under `./coverage` on port 8080.
