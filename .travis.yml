@@ -3,6 +3,9 @@ node_js:
 - '6'
 script: npm run coverage
 after_script: cat ./coverage/lcov.info | ./node_modules/.bin/coveralls
+sudo: required
+services:
+  - docker
 env:
   global:
   - secure: KeZr+xG4sqKemSY4JHLzSIGH9CG4ssfNjv3dnB5QdAYYQAvu1WKhJxaz5//2Mp9eDZ6xiMiDXvnEXrrJu3qUBJBJaFIpRy38XL5h3chM54dlkqWeSkEIH7+J4csPwOBIfLpKdgWY9pkTpFxtiucKx+vooRjE5BGDrpf0MhW233UZtzTMq9kIBIyjyGhnggGXNE252pAzIGW0DLm6cGKMDP9jjL0AzfR0pRE5E6LZZREuZc4/BoixJ0TpvHnL4FfFoy7Km/4arteFwJL0YD/soyEZGqqtaUkceRpkMT9rmlheNY2wsiupYOq+CkUzAiZDSmMIP4ywatbnDRAc0ePVQyXskx2Wu5PyhgiGygbXTV7CQTIvQIgdmZlkX6R0MGKlBDcU3gBfKYlTfWk9xjy94vFhD9VeEbCAo9S3hfibKn0vHghagjOcwi7vLkbgZ6C8FXqjfUTCS6UYoGg6CauPp77dlJE6mMJkuhzifz8C/4M47ERcqgkYVzt31+TKHYCRhXGZBgSd2U3GZpo/Q+eu5xpIU2+TzQXz9sc6WZYcRwWadRWnwbny8rvYm/I3CukWesOE2oVdcFaGv38I1F1h5q6/cW2u5YxBMi+lBmO/JkqmhnK0uRpf8gbLbky/QCEWAMR+B3JcCi/eIX0kvTici5XEy1e/73cqJ73C6o+KfC0=
