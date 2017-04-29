@@ -34,11 +34,12 @@ export class TableHeadCell extends React.Component {
 
   render() {
     let classes = ["cell", this.props.field.key],
-        sortDirection = this.props.sorting.direction || 0;
+        sorting = this.props.sorting !== undefined ? this.props.sorting : {},
+        sortDirection = sorting.direction || 0;
         
-    if(sortDirection > 0 && this.props.sorting.key === this.props.field.key) {
+    if(sortDirection > 0 && sorting.key === this.props.field.key) {
       classes.push("sort-ascending");
-    } else if(sortDirection < 0 && this.props.sorting.key === this.props.field.key) {
+    } else if(sortDirection < 0 && sorting.key === this.props.field.key) {
       classes.push("sort-descending");
     }
 
