@@ -6,7 +6,8 @@
   "license": "SEE LICENSE IN LICENSE.md",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/.bin/cross-env NODE_ENV=test node_modules/.bin/nyc --reporter=lcov --reporter=text node_modules/.bin/_mocha --require test_bootstrap.js --recursive --compilers js:babel-core/register"
+    "test": "node_modules/.bin/cross-env NODE_ENV=test node_modules/.bin/_mocha --require test_bootstrap.js --recursive --compilers js:babel-core/register",
+    "coverage": "node_modules/.bin/cross-env NODE_ENV=test node_modules/.bin/nyc --reporter=lcov --reporter=text node_modules/.bin/_mocha --require test_bootstrap.js --recursive --compilers js:babel-core/register"
   },
   "author": "Lewis Nelson",
   "email": "lewis@lewnelson.com",

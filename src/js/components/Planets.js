@@ -1,7 +1,7 @@
 "use strict";
 
 import { Search } from "./Search.js";
-import { Table } from "./Table.js";
+import { Table } from "./table/Table.js";
 import { Pagination } from "./Pagination.js";
 const Swapi = require("../lib/Swapi.js");
 
@@ -75,6 +75,20 @@ export class Planets extends React.Component {
   }
 
   /**
+   *  When the state is updated the result should be reloader. Result should
+   *  only be loaded when page or search value has changed
+   *
+   *  @param {object} prevProps
+   *  @param {object} prevState
+   *  @return {void}
+   */
+  componentDidUpdate(prevProps, prevState) {
+    if(prevState.searchValue !== this.state.searchValue || prevState.page !== this.state.page) {
+      this.loadResult();
+    }
+  }
+
+  /**
    *  Load results for a specific page number
    *
    *  @param {int} pageNumber
@@ -84,8 +98,6 @@ export class Planets extends React.Component {
     this.setState({
       page: pageNumber
     });
-
-    this.loadResult(undefined, pageNumber);
   }
 
   /**
@@ -100,8 +112,6 @@ export class Planets extends React.Component {
       searchValue: event.target.value,
       page: 1
     });
-
-    this.loadResult(event.target.value, 1);
   }
 
   /**
@@ -115,8 +125,6 @@ export class Planets extends React.Component {
       searchValue: "",
       page: 1
     });
-
-    this.loadResult("", 1);
   }
 
   /**
