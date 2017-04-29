@@ -46,7 +46,11 @@ export class Search extends React.Component {
       clearIconClasses.push("hidden");
     }
 
-    const inputHandler = this.props.inputHandler || function(){};
+    const inputHandler = (e) => {
+      let callback = this.props.inputHandler || function(){};
+      callback(e.target.value);
+    };
+
     clearIconClasses = clearIconClasses.join(" ");
     return (
       <div className="search-component">

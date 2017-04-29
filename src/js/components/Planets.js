@@ -4,6 +4,7 @@ import { Search } from "./Search.js";
 import { Table } from "./table/Table.js";
 import { Pagination } from "./Pagination.js";
 const Swapi = require("../lib/Swapi.js");
+const resultsPerPage = 10;
 
 /**
  *  Planets component to display and search for Star Wars planets. Renders Search
@@ -92,39 +93,45 @@ export class Planets extends React.Component {
    *  Load results for a specific page number
    *
    *  @param {int} pageNumber
+   *  @param {function} done (optional)
    *  @return {void}
    */
-  goToPage(pageNumber) {
+  goToPage(pageNumber, done) {
+    done = done || function(){};
     this.setState({
       page: pageNumber
-    });
+    }, done);
   }
 
   /**
    *  Handle the search input from an input element onChange event. Will update
    *  search in state and load results with search term.
    *
-   *  @param {Event} event
+   *  @param {string} value
+   *  @param {function} done (optional)
    *  @return {void}
    */
-  searchInputHandler(event) {
+  searchInputHandler(value, done) {
+    done = done || function(){};
     this.setState({
-      searchValue: event.target.value,
+      searchValue: value,
       page: 1
-    });
+    }, done);
   }
 
   /**
    *  Clear the search value, will update search value state and load result with
    *  no search term
    *
+   *  @param {function} done (optional)
    *  @return {void}
    */
-  clearSearchValue() {
+  clearSearchValue(done) {
+    done = done || function(){};
     this.setState({
       searchValue: "",
       page: 1
-    });
+    }, done);
   }
 
   /**
@@ -187,8 +194,8 @@ export class Planets extends React.Component {
    *  @return {int}
    */
   getTotalPages() {
-    let count = this.state.result.count || 0;
-    return count > 0 ? Math.ceil(count / 10) : 1;
+    let count = this.state.result.count || 1;
+    return count > 0 ? Math.ceil(count / resultsPerPage) : 1;
   }
 
   /**
