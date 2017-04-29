@@ -25,7 +25,7 @@ export class TableHead extends React.Component {
    *  @return {array of TableHeadCell} Gets array of TableHeadCell components
    */
   getThElements() {
-    let fields = this.props.fields.slice(0),
+    let fields = this.props.fields instanceof Array ? this.props.fields.slice(0) : [],
         thElems = [];
 
     while(fields.length > 0) {

@@ -1,9 +1,8 @@
 "use strict";
 
 import {Table} from "../../../../../src/js/components/table/Table.js";
-import {shallow, mount} from "enzyme";
+import {shallow} from "enzyme";
 import {expect} from "chai";
-import {spy} from "sinon";
 
 describe("<Table />", () => {
   it("will sort not sort data for table body when no sorting key and direction are defined in state", () => {
