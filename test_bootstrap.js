@@ -3,6 +3,9 @@
 // Define globals that are not bundled in app
 global.axios = require("axios");
 global.Promise = require("bluebird");
+Promise.config({
+  cancellation: true
+});
 
 // Setup document
 const jsdom = require("jsdom");

@@ -51,22 +51,22 @@ export class TableDataCell extends React.Component {
   resolveValue() {
     let value = this.props.value;
     switch(true) {
-      case value === null:
-      case value === undefined:
-        this.setState({value: "N/A"});
-        break;
-
       case (typeof this.props.field.value === "function"):
         let resolvedValue = this.props.field.value(value);
         if((resolvedValue instanceof Promise)) {
           this.promise = resolvedValue;
           this.setState({loading: true});
-          this.promise.then((v) => this.setState({value: v, loading: false})).catch((err) => this.setState({value: "ERR", loading: false}));
-        } else if(typeof resolvedValue !== undefined) {
+          this.promise.then((v) => this.setState({value: v, loading: false})).catch((err) => this.setState({value: "ERROR", loading: false}));
+        } else if(resolvedValue !== undefined) {
           this.setState({value: resolvedValue});
         } else {
           this.setState({value: "N/A"});
         }
+        break;
+
+      case value === null:
+      case value === undefined:
+        this.setState({value: "N/A"});
         break;
 
       default:

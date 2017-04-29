@@ -21,6 +21,19 @@ export class TableBody extends React.Component {
   }
 
   /**
+   *  Generates unique key string based on fields and data
+   *
+   *  @param {object} data
+   *  @return {string}
+   */
+  getUniqueKey(data) {
+    return JSON.stringify({
+      fields: this.props.fields,
+      data: data
+    });
+  }
+
+  /**
    *  Parses each data object into a TableRow component
    *
    *  @return {array of TableRow} Returns array of TableRow components
@@ -31,7 +44,7 @@ export class TableBody extends React.Component {
 
     data = data.slice(0);
     for(let i = 0; i < data.length; i++) {
-      rows.push(<TableRow data={data[i]} fields={this.props.fields} key={data[i].url} />);
+      rows.push(<TableRow data={data[i]} fields={this.props.fields} key={this.getUniqueKey(data[i])} />);
     }
 
     return rows.length > 0 ? rows : this.getEmptyResult();

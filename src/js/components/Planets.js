@@ -173,7 +173,6 @@ export class Planets extends React.Component {
             Promise.all(promises).then((results) => {
               resolve(results.map((r) => r.title));
             }).catch((err) => {
-              console.log(err);
               reject(err);
             });
           });

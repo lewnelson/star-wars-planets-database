@@ -32,7 +32,7 @@ export class TableHead extends React.Component {
       let field = fields.shift();
       thElems.push(
         <TableHeadCell
-          key={field.key}
+          key={JSON.stringify(field)}
           setSorting={this.props.setSorting}
           sorting={this.props.sorting}
           field={field} />
