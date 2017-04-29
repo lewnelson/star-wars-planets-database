@@ -1,5 +1,19 @@
 language: node_js
 node_js:
-  - "6"
-script: "npm run coverage"
-after_script: "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
+- '6'
+script: npm run coverage
+after_script: cat ./coverage/lcov.info | ./node_modules/.bin/coveralls
+env:
+  global:
+  - secure: KeZr+xG4sqKemSY4JHLzSIGH9CG4ssfNjv3dnB5QdAYYQAvu1WKhJxaz5//2Mp9eDZ6xiMiDXvnEXrrJu3qUBJBJaFIpRy38XL5h3chM54dlkqWeSkEIH7+J4csPwOBIfLpKdgWY9pkTpFxtiucKx+vooRjE5BGDrpf0MhW233UZtzTMq9kIBIyjyGhnggGXNE252pAzIGW0DLm6cGKMDP9jjL0AzfR0pRE5E6LZZREuZc4/BoixJ0TpvHnL4FfFoy7Km/4arteFwJL0YD/soyEZGqqtaUkceRpkMT9rmlheNY2wsiupYOq+CkUzAiZDSmMIP4ywatbnDRAc0ePVQyXskx2Wu5PyhgiGygbXTV7CQTIvQIgdmZlkX6R0MGKlBDcU3gBfKYlTfWk9xjy94vFhD9VeEbCAo9S3hfibKn0vHghagjOcwi7vLkbgZ6C8FXqjfUTCS6UYoGg6CauPp77dlJE6mMJkuhzifz8C/4M47ERcqgkYVzt31+TKHYCRhXGZBgSd2U3GZpo/Q+eu5xpIU2+TzQXz9sc6WZYcRwWadRWnwbny8rvYm/I3CukWesOE2oVdcFaGv38I1F1h5q6/cW2u5YxBMi+lBmO/JkqmhnK0uRpf8gbLbky/QCEWAMR+B3JcCi/eIX0kvTici5XEy1e/73cqJ73C6o+KfC0=
+  - secure: d3M+EJbDhVoTo7Zm53F6AO5SL35vcRYaI0x07oeBhY3/Mnq0j1ISeJh36Nvzm47mf80IMZfjDQuwKN8R2W5u16SdBonao3yonZpdAo/xIq1LNQW0klj1MtVou76pCjyVCSyApkBtbotzmJ1gdYtbxmYQceWE6kKZMow664acSKw8F7RejhkgPlMMGvvCIP0noMprwSUJa4fKleN2eo1wiITwHBOECa93OHPWyr6dC11xx0Y1ikOScHwsg7rVIEZD3GCOfCsgQWIxMwG6QpiEsOc/OTKKhUvTi9ZCSbUM+gsnkOJeJgNEJVjJi1Q4VqL59QWHXz/NVgQQz4k+dlgDRuDrj7bLg3D9R1EzBZBbxZk8/dvzZSXw4S2VgLBZXS3GfKouv5e1l6b9BHpMAlYbs8rSFxaCgiPrGx+u0L/8svhhxn4mWMEIyU/xxo+MrVNxkYhAlowP2kBhOnGtRWzOikJq+yURHEQyxsBVvS/TgVem8h8YIqvG6qjREnhrxlvzmR+R5TW4eat+H5MrF9kvDxglgD5lT9KSmsane85LqSPeccI4gM6Q+Id6qQlD5Hu7CjEzXOr4vULHcZxcqoCzPBB9HhwMWc3Dz9YD8U0pw5uGSGYme1Z0eEOeIAsz9DaQmQsf9aytRlFG1l7cezn4OnJ0FOac2VJbap9KTlPLs5Y=
+  - secure: M8NFt7wQFSKf/o3lY7zfnxZL59krclbTpsyXe0it1MRNZx1VBIlc+Pd7d52ewKsmcmXx2Uu88hJMaxF6oAD81H5ZrQuMVQxFbY0QtIrqEH8SQEC+oMpUMacb5+DD2riVUcIedqyy0Ht6JvstT+i9QZ8lADo3FbVY2WHe3vXUjeZv+FUA0As0vsljSPRn0+ju4a7UDko0ZaVG5t1V9uplsqAE2ZOVWlkeZl6H7gqwnbYBorqNLXmdGWYX6pwQhKpqOKGEKIadXLrzZLEHb0PajrKmyWxgjR2cEnT2Z0Ei1NPkVlAvJg/H4c0jPLiOUXBDxQ1JlhStgh8QN9znzCbA/26RX3fXuHERWMPGboFsdLAie6UKGEQz8meDjew5tE4zclof8bSIASENEdiowkNWiN2MxgF+mu32YcCAKM1oXl1vKNM7wsyFEj1B0lDoix7GVkcNjTEI+rOeY9mSweCH8swyrl/EZ6pU45ZNuLz2Lq9IFVuwVdXuQ3SQ7RXqFaqTofq3QtpDVTsz2bHQSgN7AaHl54TG3zuWyzJ69SgboQfTcV0Lu90n/JJkWWSGo7BwUkobUz5M02cnzdumVoumjgdvz6eH0t+epklzf1t6WF4verTGQWJXbeKDrr8Gq7sADpeEmsnl43hn/Pcdio1vHhYROXxloI95dnVpCaFpJoE=
+  - COMMIT=${TRAVIS_COMMIT::8}
+after_success:
+  - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+  - export REPO=lewnelson/star-wars-planets-database
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+  - docker build -f Dockerfile -t $REPO:$COMMIT .
+  - docker tag $REPO:$COMMIT $REPO:$TAG
+  - docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
+  - docker push $REPO
