@@ -2,14 +2,23 @@
 
 /**
  *  Renders pagination, accepts the following props:
- *   - totalPages : {int} (optional) The total number of available pages
- *   - currentPage : {int} The current page number
+ *   - totalPages : {int} The total number of available pages, integer greater
+ *                        than 0
+ *                        
+ *   - currentPage : {int} To be greater than 0 and less than or equal to totalPages
+ *                         
  *   - goToPage : {function} Function that accepts single argument of page number
  *                           will then go to that page number
  */
 export class Pagination extends React.Component {
   constructor(props) {
     super(props);
+
+    if(this.props.currentPage === undefined || this.props.totalPages === undefined) {
+      throw new Error("props.currentPage and props.totalPages must be defined");
+    } else if(this.props.currentPage < 1 || this.props.currentPage > this.props.totalPages) {
+      throw new Error("Invalid value specified for props.currentPage, should be greater than 0 and less than or equal to props.totalPages");
+    }
 
     this.goToPage = this.goToPage.bind(this);
     this.getFirst = this.getFirst.bind(this);
@@ -135,6 +144,7 @@ export class Pagination extends React.Component {
         <span
           className={classes.join(" ")}
           key={"page-number-" + next.value}
+          value={next.value}
           onClick={() => this.goToPage(next.value)}>
             {next.label}
         </span>
