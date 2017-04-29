@@ -15,12 +15,13 @@ export class TableRow extends React.Component {
    *  @return {array of TableDataCell} Array of TableDataCell components
    */
   getDataCells() {
-    let fields = this.props.fields.slice(0),
-        dataCells = [];
+    let fields = this.props.fields instanceof Array ? this.props.fields.slice(0) : [],
+        dataCells = [],
+        data = this.props.data !== undefined ? this.props.data : {};
 
     while(fields.length > 0) {
       let field = fields.shift(),
-          value = this.props.data[field.key] || null;
+          value = data[field.key] || null;
 
       dataCells.push(
         <TableDataCell
