@@ -16,6 +16,14 @@
         text-align: center;
     }
 
+    .previous {
+        transform: rotateZ(-90deg);
+    }
+
+    .next {
+        transform: rotateZ(90deg);
+    }
+
     span.page-number {
         width: 28px;
     }
@@ -53,5 +61,6 @@
         text-align: center;
         padding-left: 8px;
         padding-right: 8px;
+        font-size: 0.87em;
     }
 }

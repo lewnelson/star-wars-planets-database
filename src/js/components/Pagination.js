@@ -67,7 +67,7 @@ export class Pagination extends React.Component {
    */
   getPreviousArrow() {
     let classes = ["previous"],
-        entity = "\u25c0";
+        entity = "\u25b2";
 
     if(this.props.currentPage === 1) {
       classes.push("disabled");
@@ -161,7 +161,7 @@ export class Pagination extends React.Component {
    */
   getNextArrow() {
     let classes = ["next"],
-        entity = "\u25ba";
+        entity = "\u25b2";
 
     if(this.props.currentPage === this.props.totalPages) {
       classes.push("disabled");
