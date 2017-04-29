@@ -42,10 +42,11 @@ export class Search extends React.Component {
       "icon"
     ];
 
-    if(this.props.searchValue === "") {
+    if(this.props.searchValue === "" || this.props.searchValue === undefined) {
       clearIconClasses.push("hidden");
     }
 
+    const inputHandler = this.props.inputHandler || function(){};
     clearIconClasses = clearIconClasses.join(" ");
     return (
       <div className="search-component">
@@ -54,7 +55,7 @@ export class Search extends React.Component {
           type="text"
           placeholder="Search"
           value={this.props.searchValue}
-          onChange={this.props.inputHandler}
+          onChange={inputHandler}
           ref={(input) => { this.searchInput = input; }} />
         <span className={clearIconClasses} onClick={this.clearSearch}>X</span>
       </div>
