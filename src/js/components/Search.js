@@ -47,8 +47,11 @@ export class Search extends React.Component {
     }
 
     const inputHandler = (e) => {
-      let callback = this.props.inputHandler || function(){};
-      callback(e.target.value);
+      if(typeof this.props.inputHandler !== "function") {
+        throw new Error("Missing inputHandler prop, expecting type function");
+      }
+      
+      this.props.inputHandler(e.target.value);
     };
 
     clearIconClasses = clearIconClasses.join(" ");

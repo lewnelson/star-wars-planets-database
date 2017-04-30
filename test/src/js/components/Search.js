@@ -49,4 +49,18 @@ describe("<Search />", () => {
 
     expect(inputHandler).to.have.property("callCount", 1);
   });
+
+  it("should throw an error when no inputHandler prop is set as a function and input occurs", () => {
+    const wrapper = mount(<Search />);
+    const input = wrapper.find("input");
+    const errCallback = () => {
+      input.simulate("change", {
+        target: {
+          value: "test"
+        }
+      });
+    };
+
+    expect(errCallback).to.throw(Error);
+  });
 });

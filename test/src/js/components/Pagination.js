@@ -76,6 +76,26 @@ describe("<Pagination />", () => {
         totalPages: 7,
         currentPage: 2,
         expectedPagesDisplayed: 4
+      },
+      {
+        totalPages: 12,
+        currentPage: 11,
+        expectedPagesDisplayed: 3
+      },
+      {
+        totalPages: 2,
+        currentPage: 1,
+        expectedPagesDisplayed: 2
+      },
+      {
+        totalPages: 1,
+        currentPage: 1,
+        expectedPagesDisplayed: 1
+      },
+      {
+        totalPages: 2,
+        currentPage: 2,
+        expectedPagesDisplayed: 2
       }
     ];
 

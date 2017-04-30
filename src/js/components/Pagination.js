@@ -102,7 +102,7 @@ export class Pagination extends React.Component {
       });
 
       // Add ellipsis for next
-      if(this.props.currentPage + 1 <= this.props.totalPages) {
+      if(this.props.currentPage + 1 < this.props.totalPages) {
         pageNumbers.push({
           label: "...",
           value: this.props.currentPage + 2

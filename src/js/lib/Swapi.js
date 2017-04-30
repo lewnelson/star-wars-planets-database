@@ -54,7 +54,7 @@ let i = 0;
  *  @return {Promise}
  */
 exports.get = (uri) => {
-  if(uri.match(/^(\/\/|http:)/) === null) {
+  if(uri.match(/^(\/\/|https?:)/) === null) {
     uri = apiUrl + uri;
   }
 
