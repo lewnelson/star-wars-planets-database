@@ -33,7 +33,7 @@ export class Search extends React.Component {
    *  @return {void}
    */
   clearSearch(e) {
-    this.props.clearSearchValue(e);
+    this.props.clearSearchValue();
     this.focus();
   }
 

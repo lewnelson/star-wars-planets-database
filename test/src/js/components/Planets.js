@@ -132,4 +132,137 @@ describe("<Planets />", () => {
     const goToPage = wrapper.find("Pagination").prop("goToPage");
     goToPage(5, () => expect(wrapper.state("page")).to.equal(5));
   });
+
+  it("should always return 1 from getTotalPages when the result count is less than 1", (done) => {
+    const wrapper = shallow(<Planets />);
+    let dataSets = [
+      -5,
+      0
+    ];
+
+    /**
+     *  Recursively test each data set
+     *
+     *  @return {void}
+     */
+    function testGetTotalPages() {
+      let next = dataSets.shift();
+      if(next === undefined) {
+        done();
+        return;
+      }
+
+      wrapper.setState({result: {count: next}}, () => {
+        expect(wrapper.find("Pagination").prop("totalPages")).to.equal(1);
+        testGetTotalPages();
+      });
+    }
+
+    testGetTotalPages();
+  });
+
+  it("should return a promise for the film field which will resolve when swapi call is successful", (done) => {
+    const wrapper = shallow(<Planets />);
+    const table = wrapper.find("Table");
+    let filmValues = {
+          initialValues: ["/films/1", "/films/2"],
+          urlPatterns: [/^.*?\/films\/1$/, /^.*?\/films\/2$/],
+          expectedResponses: [{title: "film 1"}, {title: "Film 2"}],
+          expectedResolvedValue: ["film 1", "Film 2"]
+        },
+        filmField = table.prop("fields").filter((field) => field.key === "films").shift();
+
+    expect(filmField).not.to.equal(undefined);
+    for(let i = 0; i < filmValues.urlPatterns.length; i++) {
+      moxios.stubRequest(filmValues.urlPatterns[i], {status: 200, response: filmValues.expectedResponses[i]});
+    }
+
+    let promise = filmField.value(filmValues.initialValues);
+    promise.then((resolved) => {
+      expect(resolved).to.deep.equal(filmValues.expectedResolvedValue);
+      done();
+    });
+  });
+
+  it("should return a promise for the film field which will be rejected when any swapi call it calls is unsuccessful", () => {
+    const wrapper = shallow(<Planets />);
+    const table = wrapper.find("Table");
+    let filmValues = {
+          initialValues: ["/films/1"],
+          urlPatterns: [/^.*?\/films\/1$/]
+        },
+        filmField = table.prop("fields").filter((field) => field.key === "films").shift();
+
+    expect(filmField).not.to.equal(undefined);
+    for(let i = 0; i < filmValues.urlPatterns.length; i++) {
+      moxios.stubRequest(filmValues.urlPatterns[i], {status: 500, response: []});
+    }
+
+    let promise = filmField.value(filmValues.initialValues);
+    promise.catch((rejected) => {
+      expect(rejected).to.be.an.instanceof(Error);
+      done();
+    });
+  });
+
+  it("should resolve terrain field values from a CSV string to an array trimming the values of the CSV", () => {
+    const wrapper = shallow(<Planets />);
+    let field = wrapper.find("Table").prop("fields").filter((field) => field.key === "terrain").shift();
+    let dataSets = [
+      {
+        initialValue: "",
+        expectedValues: []
+      },
+      {
+        initialValue: "one, two",
+        expectedValues: ["one", "two"]
+      },
+      {
+        initialValue: "terrain one,terrain two , terrain three",
+        expectedValues: ["terrain one", "terrain two", "terrain three"]
+      }
+    ];
+
+    expect(field).not.to.equal(undefined);
+    while(dataSets.length > 0) {
+      let dataSet = dataSets.shift();
+      expect(field.value(dataSet.initialValue)).to.deep.equal(dataSet.expectedValues);
+    }
+  });
+
+  it("should cancel any request in progress when loading the result", (done) => {
+    const wrapper = mount(<Planets />);
+    let initialRequest = wrapper.nodes.shift().requestInProgress;
+    // Trigger loadResult for second time
+    wrapper.setState({searchValue: "diff"}, () => {
+      expect(initialRequest.isCancelled()).to.be.true;
+      done();
+    });
+  });
+
+  it("should add search query parameter when searchValue state is a non empty string", (done) => {
+    const wrapper = shallow(<Planets />);
+    wrapper.setState({searchValue: "searchTerm"}, () => {
+      moxios.wait(() => {
+        let requestUrl = moxios.requests.mostRecent().url,
+            queries = requestUrl.replace(/^.*?\?(.*)$/, "$1").split("&");
+
+        expect(queries.indexOf("search=searchTerm")).to.be.at.least(0);
+        done();
+      });
+    });
+  });
+
+  it("should add page query parameter when page state is not undefined", (done) => {
+    const wrapper = shallow(<Planets />);
+    wrapper.setState({page: 4}, () => {
+      moxios.wait(() => {
+        let requestUrl = moxios.requests.mostRecent().url,
+            queries = requestUrl.replace(/^.*?\?(.*)$/, "$1").split("&");
+
+        expect(queries.indexOf("page=4")).to.be.at.least(0);
+        done();
+      });
+    });
+  });
 });

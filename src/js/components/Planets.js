@@ -28,13 +28,11 @@ export class Planets extends React.Component {
   }
 
   /**
-   *  Load the result from the api with an optional search value
+   *  Load the result from the api
    *
-   *  @param {string} searchValue
-   *  @param {int} page
    *  @return {void}
    */
-  loadResult(searchValue, page) {
+  loadResult() {
     let uri = "/planets/",
         queryParams = {};
 
@@ -42,20 +40,13 @@ export class Planets extends React.Component {
       this.requestInProgress.cancel();
     }
 
-    if(searchValue !== undefined && searchValue !== "") {
-      queryParams.search = searchValue;
-    } else if(searchValue === undefined && this.state.searchValue !== "") {
+    if(this.state.searchValue !== "") {
       queryParams.search = this.state.searchValue;
     }
 
-    if(page !== undefined) {
-      queryParams.page = page;
-    } else if(page === undefined && this.state.page !== undefined) {
-      queryParams.page = this.state.page;
-    }
-
+    queryParams.page = this.state.page;
     let compiledQueryParams = Object.keys(queryParams).map((k) => encodeURIComponent(k) + "=" + encodeURIComponent(queryParams[k]));
-    uri = compiledQueryParams.length > 0 ? uri + "?" + compiledQueryParams.join("&") : uri;
+    uri = uri + "?" + compiledQueryParams.join("&");
 
     this.setState({loading: true});
     this.requestInProgress = Swapi.get(uri);
@@ -169,7 +160,7 @@ export class Planets extends React.Component {
       {
         key: "terrain",
         label: "Terrains",
-        value: (v) => v.split(",").map((s) => s.trim())
+        value: (v) => v.split(",").map((s) => s.trim()).filter((v) => v.length > 0)
       },
       {
         key: "films",
