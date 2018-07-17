@@ -1,6 +1,6 @@
 "use strict";
 
-const apiUrl = "http://swapi.co/api";
+const apiUrl = "https://swapi.co/api";
 
 // Maximum items to store in the cache, once limit is reached the cache should
 // clear out oldest item to make room
