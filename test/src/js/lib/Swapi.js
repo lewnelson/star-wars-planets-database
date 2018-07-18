@@ -99,7 +99,7 @@ describe("Star Wars API library tests", () => {
   });
 
   it("should append full url before path if only a path is provided", (done) => {
-    let apiUrl = "http://swapi.co/api",
+    let apiUrl = "https://swapi.co/api",
         urls = [
           {
             url: "/resources/",
