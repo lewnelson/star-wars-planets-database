@@ -13,7 +13,7 @@ env:
   - secure: M8NFt7wQFSKf/o3lY7zfnxZL59krclbTpsyXe0it1MRNZx1VBIlc+Pd7d52ewKsmcmXx2Uu88hJMaxF6oAD81H5ZrQuMVQxFbY0QtIrqEH8SQEC+oMpUMacb5+DD2riVUcIedqyy0Ht6JvstT+i9QZ8lADo3FbVY2WHe3vXUjeZv+FUA0As0vsljSPRn0+ju4a7UDko0ZaVG5t1V9uplsqAE2ZOVWlkeZl6H7gqwnbYBorqNLXmdGWYX6pwQhKpqOKGEKIadXLrzZLEHb0PajrKmyWxgjR2cEnT2Z0Ei1NPkVlAvJg/H4c0jPLiOUXBDxQ1JlhStgh8QN9znzCbA/26RX3fXuHERWMPGboFsdLAie6UKGEQz8meDjew5tE4zclof8bSIASENEdiowkNWiN2MxgF+mu32YcCAKM1oXl1vKNM7wsyFEj1B0lDoix7GVkcNjTEI+rOeY9mSweCH8swyrl/EZ6pU45ZNuLz2Lq9IFVuwVdXuQ3SQ7RXqFaqTofq3QtpDVTsz2bHQSgN7AaHl54TG3zuWyzJ69SgboQfTcV0Lu90n/JJkWWSGo7BwUkobUz5M02cnzdumVoumjgdvz6eH0t+epklzf1t6WF4verTGQWJXbeKDrr8Gq7sADpeEmsnl43hn/Pcdio1vHhYROXxloI95dnVpCaFpJoE=
   - COMMIT=${TRAVIS_COMMIT::8}
 after_success:
-  - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+  - echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
   - export REPO=lewnelson/star-wars-planets-database
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
   - docker build -f Dockerfile -t $REPO:$COMMIT .
