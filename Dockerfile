@@ -5,7 +5,7 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 # Install system dependencies
-RUN apt-get update && apt-get -y install ruby
+RUN apt-get update && apt-get -y install ruby ruby-dev
 RUN echo "y" | gem install sass
 
 # Install app dependencies
